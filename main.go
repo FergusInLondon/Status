@@ -8,15 +8,20 @@ import (
 )
 
 func main() {
-	router := mux.NewRouter()
+	err := databaseConnection()
+	if err != nil {
+		panic(err)
+	}
 
+	log.Println("Established Database Connection.")
+
+	router := mux.NewRouter()
 	router.HandleFunc("/status", apiStatuses).Methods("GET")
 	router.HandleFunc("/status/down", apiDownStatuses).Methods("GET")
 	router.HandleFunc("/status/service/{domain:[a-z]+}", apiDomainStatus).Methods("GET")
 	router.HandleFunc("/status/service/{domain:[a-z]+}/incidents", apiDomainIncidents).Methods("GET")
-
 	http.Handle("/", router)
 
-	log.Println("Listening...")
-	http.ListenAndServe(":3000", nil)
+	log.Println("Listening for API connections")
+	http.ListenAndServe(":8080", nil)
 }
