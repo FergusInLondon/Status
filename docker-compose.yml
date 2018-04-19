@@ -1,0 +1,14 @@
+version: '3.1'
+
+services:
+  db:
+    image: mysql
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./docker-volumes/mysql:/var/lib/mysql
+    environment:
+      MYSQL_DATABASE: status
+      MYSQL_USER: status_app
+      MYSQL_PASSWORD: status_password
+      MYSQL_RANDOM_ROOT_PASSWORD: "yes"
