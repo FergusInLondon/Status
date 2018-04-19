@@ -22,6 +22,8 @@ func main() {
 	router.HandleFunc("/status/service/{domain:[a-z]+}/incidents", apiDomainIncidents).Methods("GET")
 	http.Handle("/", router)
 
+	perform_checks()
+
 	log.Println("Listening for API connections")
 	http.ListenAndServe(":8080", nil)
 }

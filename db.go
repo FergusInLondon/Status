@@ -39,3 +39,25 @@ func getDomainIncidents(domain string) []Incident {
 
 	return domainIncidents
 }
+
+func updateDomain(previous, current Check) {
+	// Update the domain
+
+	var incidentHasBegan = previous.Status && !current.Status
+	if incidentHasBegan {
+		createIncident(current)
+	}
+
+	var incidentHasFinished = !previous.Status && current.Status
+	if incidentHasFinished {
+		resolveIncident(current)
+	}
+}
+
+func createIncident(domain Check) {
+
+}
+
+func resolveIncident(domain Check) {
+
+}
