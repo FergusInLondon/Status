@@ -1,0 +1,4 @@
+package: .
+excludeDirs:
+- docker-volumes
+import: []

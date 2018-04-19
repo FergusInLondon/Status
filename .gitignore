@@ -1,0 +1,4 @@
+!*/.gitkeep
+vendor/
+docker-volumes/mysql/*
+status
