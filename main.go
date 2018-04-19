@@ -18,8 +18,8 @@ func main() {
 	router := mux.NewRouter()
 	router.HandleFunc("/status", apiStatuses).Methods("GET")
 	router.HandleFunc("/status/down", apiDownStatuses).Methods("GET")
-	router.HandleFunc("/status/service/{domain:[a-z]+}", apiDomainStatus).Methods("GET")
-	router.HandleFunc("/status/service/{domain:[a-z]+}/incidents", apiDomainIncidents).Methods("GET")
+	router.HandleFunc("/status/service/{domain}", apiDomainStatus).Methods("GET")
+	router.HandleFunc("/status/service/{domain}/incidents", apiDomainIncidents).Methods("GET")
 	http.Handle("/", router)
 
 	perform_checks()

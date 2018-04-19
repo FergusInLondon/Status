@@ -14,11 +14,19 @@ services:
       MYSQL_RANDOM_ROOT_PASSWORD: "yes"
 
   app:
-    image: iron/go
+    image: frolvlad/alpine-bash
     ports:
       - "8080:8080"
     depends_on:
       - db
     volumes:
       - "./status:/app/status"
-    entrypoint: "/app/status"
+      - "./docker-volumes/wait-for-it.sh:/app/wait-for-it.sh"
+    entrypoint: ["/app/wait-for-it.sh"]
+    environment:
+      MYSQL_DATABASE: status
+      MYSQL_USER: status_app
+      MYSQL_PASSWORD: status_password
+      MYSQL_HOST: db
+      MYSQL_PORT: 3306
+      MONITORING_INTERVAL: "5m"

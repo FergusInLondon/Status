@@ -11,10 +11,13 @@ CREATE TABLE `checks` (
 CREATE TABLE `incidents` (
 	`id` INT NOT NULL AUTO_INCREMENT,
 	`check_id` INT NOT NULL,
-	`description` TEXT NOT NULL,
+	`description` TEXT,
 	`down_detection` DATETIME NOT NULL,
 	`up_detection` DATETIME,
 	PRIMARY KEY (`id`)
 );
 
 ALTER TABLE `incidents` ADD CONSTRAINT `incidents_fk0` FOREIGN KEY (`check_id`) REFERENCES `checks`(`id`);
+
+INSERT INTO `checks` (`domain`, `last_performed`, `is_up`) VALUES ('fergus.london', NOW(), '1');
+INSERT INTO `checks` (`domain`, `last_performed`, `is_up`) VALUES ('musings.fergus.london', NOW(), '0');
