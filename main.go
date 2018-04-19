@@ -10,10 +10,10 @@ import (
 func main() {
 	router := mux.NewRouter()
 
-	router.HandleFunc("/status", get_statuses).Methods("GET")
-	router.HandleFunc("/status/down", get_down_statuses).Methods("GET")
-	router.HandleFunc("/status/service/{domain:[a-z]+}", get_domain_statuses).Methods("GET")
-	router.HandleFunc("/status/service/{domain:[a-z]+}/incident/{id:[0-9]+}", get_incident).Methods("GET")
+	router.HandleFunc("/status", apiStatuses).Methods("GET")
+	router.HandleFunc("/status/down", apiDownStatuses).Methods("GET")
+	router.HandleFunc("/status/service/{domain:[a-z]+}", apiDomainStatus).Methods("GET")
+	router.HandleFunc("/status/service/{domain:[a-z]+}/incidents", apiDomainIncidents).Methods("GET")
 
 	http.Handle("/", router)
 
