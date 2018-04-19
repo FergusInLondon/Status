@@ -4,6 +4,8 @@ import (
 	"encoding/json"
 	"net/http"
 	"time"
+
+	"github.com/gorilla/mux"
 )
 
 type Check struct {
@@ -46,7 +48,8 @@ func apiDownStatuses(writer http.ResponseWriter, request *http.Request) {
 }
 
 func apiDomainStatus(writer http.ResponseWriter, request *http.Request) {
-	jsonObject, err := json.Marshal(getDomainCheck("fergus.london"))
+	vars := mux.Vars(request)
+	jsonObject, err := json.Marshal(getDomainCheck(vars["domain"]))
 
 	if err == nil {
 		writer.WriteHeader(200)
@@ -58,7 +61,8 @@ func apiDomainStatus(writer http.ResponseWriter, request *http.Request) {
 }
 
 func apiDomainIncidents(writer http.ResponseWriter, request *http.Request) {
-	jsonObject, err := json.Marshal(getDomainIncidents("fergus.london"))
+	vars := mux.Vars(request)
+	jsonObject, err := json.Marshal(getDomainIncidents(vars["domain"]))
 
 	if err == nil {
 		writer.WriteHeader(200)
