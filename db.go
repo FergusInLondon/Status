@@ -1,60 +1,41 @@
 package main
 
-import "time"
-
-var (
-	exampleChecks = []Check{
-		Check{ID: 0, Domain: "example.com", LastPerformed: time.Now(), Status: true},
-		Check{ID: 1, Domain: "fergus.london", LastPerformed: time.Now(), Status: false},
-		Check{ID: 2, Domain: "google.com", LastPerformed: time.Now(), Status: true},
-		Check{ID: 3, Domain: "facebook.com", LastPerformed: time.Now(), Status: true},
-		Check{ID: 4, Domain: "github.com", LastPerformed: time.Now(), Status: false},
-	}
-	exampleIncidents = []Incident{
-		Incident{ID: 0, CheckID: 1, Description: "It went down.", DetectedDown: time.Now(), DetectedUp: time.Now()},
-		Incident{ID: 1, CheckID: 4, Description: "It went down.", DetectedDown: time.Now(), DetectedUp: time.Now()},
-		Incident{ID: 2, CheckID: 1, Description: "It went down.", DetectedDown: time.Now(), DetectedUp: time.Now()},
-		Incident{ID: 3, CheckID: 4, Description: "It went down.", DetectedDown: time.Now(), DetectedUp: time.Now()},
-	}
+import (
+	_ "github.com/go-sql-driver/mysql"
+	"github.com/jmoiron/sqlx"
 )
 
+var connection *sqlx.DB
+
+func databaseConnection() (err error) {
+	connection, err = sqlx.Open("mysql", "status_app:status_password@/status")
+	return err
+}
+
 func getChecks() []Check {
-	return exampleChecks
+	checks := []Check{}
+	connection.Select(&checks, "SELECT * FROM checks")
+
+	return checks
 }
 
 func getFailingChecks() []Check {
 	failingChecks := []Check{}
-	for _, check := range exampleChecks {
-		if !check.Status {
-			failingChecks = append(failingChecks, check)
-		}
-	}
+	connection.Select(&failingChecks, "SELECT * FROM checks WHERE NOT is_up")
 
 	return failingChecks
 }
 
 func getDomainCheck(domain string) Check {
 	var check Check
-
-	for _, check := range exampleChecks {
-		if check.Domain == domain {
-			return check
-		}
-	}
+	connection.Select(&check, "SELECT * FROM checks WHERE domain = '$1'", domain)
 
 	return check
 }
 
 func getDomainIncidents(domain string) []Incident {
 	domainIncidents := []Incident{}
-
-	check := getDomainCheck(domain)
-
-	for _, incident := range exampleIncidents {
-		if incident.CheckID == check.ID {
-			domainIncidents = append(domainIncidents, incident)
-		}
-	}
+	connection.Select(&domainIncidents, "SELECT i.* FROM incidents i LEFT JOIN checks c ON i.check_id = c.id WHERE c.domain = '$1'", domain)
 
 	return domainIncidents
 }
