@@ -6,7 +6,9 @@ For times when proper status monitoring is a little overkill.
 
 I built this to scratch an itch with my [home network](https://fergus.london/pimping-out-your-home-network/) - I run a 4 machine Pi cluster (as a Docker Swarm), an NAS, and a few other machines. I wanted visibility on what was actually running, and if there were any interruptions.
 
-Whilst I get some good visibility for the RPi cluster via [Portainer](https://github.com/portainer/portainer) and [Docker Swarm Visualizer](https://github.com/dockersamples/docker-swarm-visualizer), this doesn't work so well for the NAS, or a few RPi's running non-container applications. (i.e [Octoprint](https://octoprint.org/) or a DNS server.) 
+Whilst I get some good visibility for the RPi cluster via [Portainer](https://github.com/portainer/portainer) and [Docker Swarm Visualizer](https://github.com/dockersamples/docker-swarm-visualizer), this doesn't work so well for the NAS, or a few RPi's running non-container applications. (i.e [Octoprint](https://octoprint.org/) or a DNS server.)
+
+This provides monitoring functionality combined with a simple API. I'll likely write a small Vue application for polling and displaying the API results, allowing monitoring on the go via a smartphone browser.
 
 ## Whats it actually do?
 
