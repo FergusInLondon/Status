@@ -1,0 +1,26 @@
+version: '3.1'
+
+services:
+  db:
+    image: mysql
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./volumes/mysql:/var/lib/mysql
+    env_file:
+      - ./database.env
+
+  app:
+    image: frolvlad/alpine-bash
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    volumes:
+      - "../status:/app/status"
+      - "./scripts/wait-for-mysql.sh:/app/wait-for-mysql.sh"
+    entrypoint: ["/app/wait-for-it.sh"]
+    env_file:
+      - ./database.env
+    environment:
+      MONITORING_INTERVAL: "5m"

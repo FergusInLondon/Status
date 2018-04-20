@@ -1,4 +1,4 @@
 !*/.gitkeep
 vendor/
-docker-volumes/mysql/*
+docker/volumes/mysql/*
 status
