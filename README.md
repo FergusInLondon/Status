@@ -10,7 +10,9 @@ Whilst I get some good visibility for the RPi cluster via [Portainer](https://gi
 
 ## Whats it actually do?
 
-Good question
+Good question; this repeatedly `pings` a given host at a set interval - determined by the environmental variable `MONITORING_INTERVAL`. If downtime is detected, the incident is logged in a MySQL database - as well as the time at which the service was detected to be back online.
+
+The results are accessible via an API detailed below.
 
 ### Endpoints
 

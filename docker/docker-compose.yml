@@ -19,7 +19,7 @@ services:
     volumes:
       - "../status:/app/status"
       - "./scripts/wait-for-mysql.sh:/app/wait-for-mysql.sh"
-    entrypoint: ["/app/wait-for-it.sh"]
+    entrypoint: ["/app/wait-for-mysql.sh"]
     env_file:
       - ./database.env
     environment:
